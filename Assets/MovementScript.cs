@@ -17,7 +17,8 @@ public class MovementScript : MonoBehaviour
     public float playerDash;
     public float dashDuration;
     public bool isDashing = false;
-    public float dashCooldown = 2;
+    public float dashCooldown;
+    public bool canDash = true;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,7 @@ public class MovementScript : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Q)) // Dash function
+        if (Input.GetKeyDown(KeyCode.Q) && canDash == true) // Dash function
         {
             StartCoroutine(Dash());
         }
@@ -74,12 +75,14 @@ public class MovementScript : MonoBehaviour
     {
 
         isDashing = true;
+        canDash = false;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0;
-        rb.velocity = new Vector2(Move * playerDash, rb.velocity.y);
+        rb.velocity = new Vector2(Move * playerDash, 0);
         yield return new WaitForSeconds(dashDuration);
         rb.gravityScale = originalGravity;
-        yield return new WaitForSeconds(dashCooldown);
         isDashing = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 }
