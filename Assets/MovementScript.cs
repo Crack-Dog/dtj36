@@ -12,7 +12,9 @@ public class MovementScript : MonoBehaviour
 
     private float Move;
 
-    public bool isJumping = false;
+    public Vector2 boxSize;
+    public float castDistance;
+    public LayerMask groundLayer;
 
     public float playerDash;
     public float dashDuration;
@@ -23,7 +25,7 @@ public class MovementScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (isDashing)
+        if (isDashing) // Restricts movement while dashing
         {
             return;
         }
@@ -33,7 +35,7 @@ public class MovementScript : MonoBehaviour
     void Update()
     {
 
-        if (isDashing)
+        if (isDashing) // Restricts movement while dashing
         {
             return;
         }
@@ -42,47 +44,51 @@ public class MovementScript : MonoBehaviour
         rb.velocity = new Vector2(playerSpeed * Move, rb.velocity.y);
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && isJumping == false) // Jump function
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) // Jump function
         {
             rb.velocity += Vector2.up * playerJump;
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Q) && canDash == true) // Dash function
+        if (Input.GetKeyDown(KeyCode.Q) && canDash) // Dash function
         {
             StartCoroutine(Dash());
         }
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public bool isGrounded() // Check if BoxCast interacting with ground layer
     {
-        if (collision.gameObject.CompareTag("Floor"))
+        if(Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
         {
-            isJumping = false;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+
+    private void OnDrawGizmos() // Function to visualize BoxCast area
     {
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            isJumping = true;
-        }
+        Gizmos.DrawWireCube(transform.position-transform.up * castDistance, boxSize);
     }
 
-    private IEnumerator Dash()
+
+    private IEnumerator Dash() // Dash coroutine logic
     {
 
         isDashing = true;
         canDash = false;
         float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0;
+        rb.gravityScale = 0; // Prevents player from interacting with gravity during dash
         rb.velocity = new Vector2(Move * playerDash, 0);
-        yield return new WaitForSeconds(dashDuration);
+        yield return new WaitForSeconds(dashDuration); // Propels player for dash duration
         rb.gravityScale = originalGravity;
         isDashing = false;
-        yield return new WaitForSeconds(dashCooldown);
+        yield return new WaitForSeconds(dashCooldown); // Dash cooldown
         canDash = true;
     }
 }
