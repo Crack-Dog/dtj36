@@ -37,7 +37,7 @@ public class MovementScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            isJumping = false;
+            isJumping = true;
         }
     }
 
@@ -45,7 +45,7 @@ public class MovementScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            isJumping = true;
+            isJumping = false;
         }
     }
 }
