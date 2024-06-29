@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MovementScript : MonoBehaviour
 {
-    public float playerSpeed = 10;
-    public float playerJump = 10;
+    public float playerSpeed;
+    public float playerJump;
 
     public Rigidbody2D rb;
 
@@ -14,30 +14,50 @@ public class MovementScript : MonoBehaviour
 
     public bool isJumping = false;
 
+    public float playerDash;
+    public float dashDuration;
+    public bool isDashing = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (isDashing)
+        {
+            return;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        Move = Input.GetAxis("Horizontal");
+        if (isDashing)
+        {
+            return;
+        }
+
+        Move = Input.GetAxis("Horizontal"); // Basic movement, returns 1 or -1 depending on direction
         rb.velocity = new Vector2(playerSpeed * Move, rb.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isJumping == false)
+
+        if (Input.GetKeyDown(KeyCode.Space) && isJumping == false) // Jump function
         {
             rb.velocity += Vector2.up * playerJump;
         }
+    
+
+        if (Input.GetKeyDown(KeyCode.Q)) // Dash function
+        {
+            StartCoroutine(Dash());
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            isJumping = true;
+            isJumping = false;
         }
     }
 
@@ -45,7 +65,16 @@ public class MovementScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            isJumping = false;
+            isJumping = true;
         }
+    }
+
+    private IEnumerator Dash()
+    {
+
+        isDashing = true;
+        rb.velocity = new Vector2(Move * playerDash, rb.velocity.y);
+        yield return new WaitForSeconds(dashDuration);
+        isDashing = false;
     }
 }
