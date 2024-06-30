@@ -483,6 +483,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 12
   playerJump: 14.52
+  jumpMax: 20
+  jumpMin: 10
+  jumpBool: 0
+  jumpCancelBool: 0
   rb: {fileID: 996848428}
   boxSize: {x: 0.85, y: 0.15}
   castDistance: 0.52
@@ -28921,7 +28925,7 @@ GameObject:
   - component: {fileID: 2080205008}
   - component: {fileID: 2080205007}
   - component: {fileID: 2080205006}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: lava
   m_TagString: Untagged
   m_Icon: {fileID: 0}
