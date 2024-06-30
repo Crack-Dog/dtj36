@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - kill
+  - freeze
   layers:
   - Default
   - TransparentFX

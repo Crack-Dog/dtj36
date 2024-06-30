@@ -18,6 +18,8 @@ public class MovementScript : MonoBehaviour
     // Related to player death
     public bool playerStuck = false;
     public float deadTime = 1;
+    public bool playerFreeze = false;
+    public float freezeTime = 5;
 
     public Rigidbody2D rb;
 
@@ -58,9 +60,12 @@ public class MovementScript : MonoBehaviour
             StartCoroutine(teleport());
             return;
         }
+
+        if (playerFreeze)
         {
-            
+            return;
         }
+
 
         Move = Input.GetAxis("Horizontal"); // Basic movement, returns 1 or -1 depending on direction
         rb.velocity = new Vector2(playerSpeed * Move, rb.velocity.y);
@@ -154,6 +159,15 @@ public class MovementScript : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("freeze"))
+        {
+            playerFreeze = true;
+            StartCoroutine(freeze());
+        }
+    }
+
     private IEnumerator teleport() // Teleports player to spawn when called
     {
         yield return new WaitForSeconds(deadTime);
@@ -161,4 +175,9 @@ public class MovementScript : MonoBehaviour
         playerStuck = false;
     }
 
+    private IEnumerator freeze()
+    {
+        yield return new WaitForSeconds(freezeTime);
+        playerFreeze = false;
+    }
 }
