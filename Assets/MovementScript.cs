@@ -166,6 +166,10 @@ public class MovementScript : MonoBehaviour
             playerFreeze = true;
             StartCoroutine(freeze());
         }
+        if (other.gameObject.CompareTag("level2"))
+        {
+            transform.position = new Vector2(0, -2);
+        }
     }
 
     private IEnumerator teleport() // Teleports player to spawn when called
