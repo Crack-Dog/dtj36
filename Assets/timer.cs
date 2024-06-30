@@ -4,7 +4,9 @@ using UnityEngine;
 using TMPro;
 
 public class Timer : MonoBehaviour
-{
+{   
+    public MovementScript movementScript;
+
     [Header("Component")]
     public TextMeshProUGUI timerText;
 
@@ -35,11 +37,22 @@ public class Timer : MonoBehaviour
 
         }
         
+        if (movementScript.playerStuck == true)
+        {
+            Penality();
+            movementScript.playerStuck = false;
+        }
+        
+
         SetTimerText();
     }
 
     private void SetTimerText()
     {
         timerText.text = currentTime.ToString("0.0");
+    }
+    public void Penality()
+    {
+        currentTime -= 5;
     }
 }
