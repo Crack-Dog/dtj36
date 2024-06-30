@@ -170,6 +170,7 @@ public class MovementScript : MonoBehaviour
 
     private IEnumerator teleport() // Teleports player to spawn when called
     {
+        rb.velocity = new Vector2(0, 0);
         yield return new WaitForSeconds(deadTime);
         transform.position = new Vector2(0, -2);
         playerStuck = false;
