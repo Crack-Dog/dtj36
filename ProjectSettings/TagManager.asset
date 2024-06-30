@@ -8,6 +8,7 @@ TagManager:
   - kill
   - freeze
   - level2
+  - level3
   layers:
   - Default
   - TransparentFX

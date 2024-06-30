@@ -205,6 +205,8 @@ public class MovementScript : MonoBehaviour
         {
             transform.position = new Vector2(133, -8);
         }
+        playerFreeze = false;
+        canDash = true;
     }
 
     private IEnumerator freeze()
