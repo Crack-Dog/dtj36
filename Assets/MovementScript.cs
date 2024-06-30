@@ -35,6 +35,11 @@ public class MovementScript : MonoBehaviour
     public float dashCooldown;
     public bool canDash = true;
 
+    // Level booleans
+    public bool levelone = true;
+    public bool leveltwo = false;
+    public bool levelthree = false;
+
    
     // Start is called before the first frame update
     void Start()
@@ -44,6 +49,11 @@ public class MovementScript : MonoBehaviour
             return;
         }
 
+        if (playerStuck) // When playStuck is true, restrict movement and run teleport method
+        {
+            StartCoroutine(teleport());
+            return;
+        }
     }
 
     // Update is called once per frame
@@ -169,6 +179,8 @@ public class MovementScript : MonoBehaviour
         if (other.gameObject.CompareTag("level2"))
         {
             transform.position = new Vector2(70, -4);
+            levelone = false;
+            leveltwo = true;
         }
     }
 
@@ -176,7 +188,14 @@ public class MovementScript : MonoBehaviour
     {
         rb.velocity = new Vector2(0, 0);
         yield return new WaitForSeconds(deadTime);
-        transform.position = new Vector2(0, -2);
+        if (levelone)
+        {
+            transform.position = new Vector2(0, -2);
+        }
+        else if (leveltwo)
+        {
+            transform.position = new Vector2(70, -4);
+        }
         playerStuck = false;
     }
 
