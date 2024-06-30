@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MovementScript : MonoBehaviour
 {
@@ -42,7 +43,14 @@ public class MovementScript : MonoBehaviour
     private bool isFacingRight;
 
     private Animator anim;
-   
+
+    // Level Stuff
+    public string levelName;
+    public void LoadLevel()
+    {
+        SceneManager.LoadScene(levelName);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -190,6 +198,11 @@ public class MovementScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("win"))
+        {
+            LoadLevel();
+        }
+
         if (other.gameObject.CompareTag("freeze"))
         {
             playerFreeze = true;

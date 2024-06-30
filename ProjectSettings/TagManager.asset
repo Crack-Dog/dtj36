@@ -9,6 +9,7 @@ TagManager:
   - freeze
   - level2
   - level3
+  - win
   layers:
   - Default
   - TransparentFX
