@@ -482,9 +482,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 12
-  playerJump: 14.52
-  jumpMax: 20
-  jumpMin: 10
+  jumpMax: 16
+  jumpMin: 8
   jumpBool: 0
   jumpCancelBool: 0
   rb: {fileID: 996848428}
