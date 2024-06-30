@@ -182,6 +182,13 @@ public class MovementScript : MonoBehaviour
             levelone = false;
             leveltwo = true;
         }
+        if (other.gameObject.CompareTag("level3"))
+        {
+            transform.position = new Vector2(133, -8);
+            levelone = false;
+            leveltwo = false;
+            levelthree = true;
+        }
     }
 
     private void teleport() // Teleports player to spawn when called
@@ -193,6 +200,10 @@ public class MovementScript : MonoBehaviour
         else if (leveltwo)
         {
             transform.position = new Vector2(70, -4);
+        }
+        else if (levelthree)
+        {
+            transform.position = new Vector2(133, -8);
         }
     }
 
