@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {   
@@ -17,6 +18,14 @@ public class Timer : MonoBehaviour
     [Header("Limit Settings")]
     public bool hasLimit;
     public float timerLimit;
+
+    // Level Stuff
+    public string levelName;
+    public void LoadLevel()
+    {
+        SceneManager.LoadScene(levelName);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +52,11 @@ public class Timer : MonoBehaviour
             movementScript.playerStuck = false;
         }
         
+        if (currentTime == 0)
+        {
+            LoadLevel();
+        }
+
 
         SetTimerText();
     }
