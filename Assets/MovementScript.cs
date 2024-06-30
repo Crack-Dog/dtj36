@@ -7,10 +7,9 @@ using UnityEngine;
 public class MovementScript : MonoBehaviour
 {
     public float playerSpeed;
-    public float playerJump;
 
-    public float jumpMax = 20;
-    public float jumpMin = 10;
+    public float jumpMax = 16;
+    public float jumpMin = 8;
     public bool jumpBool;
     public bool jumpCancelBool;
 
