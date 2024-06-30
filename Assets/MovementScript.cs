@@ -28,6 +28,14 @@ public class MovementScript : MonoBehaviour
     public float dashCooldown;
     public bool canDash = true;
 
+    private void Awake() {
+        startingPosition = transform.position;
+    }
+    Vector2 startingPosition;
+    public void Die() {
+        transform.position = startingPosition;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
