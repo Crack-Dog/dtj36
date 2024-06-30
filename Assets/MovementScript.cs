@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +8,11 @@ public class MovementScript : MonoBehaviour
 {
     public float playerSpeed;
     public float playerJump;
+
+    public float jumpMax = 20;
+    public float jumpMin = 10;
+    public bool jumpBool;
+    public bool jumpCancelBool;
 
     public Rigidbody2D rb;
 
@@ -46,7 +52,22 @@ public class MovementScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) // Jump function
         {
-            rb.velocity += Vector2.up * playerJump;
+            if (!jumpBool)
+            {
+                jumpBool = true;
+                jump();
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) && !isGrounded()){
+            if (!jumpCancelBool)
+            {
+                jumpCancelBool = true;
+                jumpCancel();
+            }
+        }
+        {
+            
         }
 
 
@@ -55,6 +76,22 @@ public class MovementScript : MonoBehaviour
             StartCoroutine(Dash());
         }
 
+    }
+
+   
+    private void jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpMax);
+        jumpBool = false;
+    }
+    
+    private void jumpCancel()
+    {
+        if (rb.velocity.y > jumpMin)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpMin);
+        }
+        jumpCancelBool = false;
     }
 
 

@@ -448,8 +448,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7761ad86074c94ba55303db3db2608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 12
-  playerJump: 10
+  playerSpeed: 10
+  playerJump: 0
+  jumpMax: 20
+  jumpMin: 10
+  jumpBool: 0
+  jumpCancelBool: 0
   rb: {fileID: 996848428}
   boxSize: {x: 0.85, y: 0.15}
   castDistance: 0.52
