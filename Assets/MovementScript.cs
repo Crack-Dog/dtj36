@@ -39,7 +39,9 @@ public class MovementScript : MonoBehaviour
     public bool levelone = true;
     public bool leveltwo = false;
     public bool levelthree = false;
+    private bool isFacingRight;
 
+    private Animator anim;
    
     // Start is called before the first frame update
     void Start()
@@ -54,6 +56,8 @@ public class MovementScript : MonoBehaviour
             teleport();
             return;
         }
+        anim = GetComponent<Animator>();
+        isFacingRight = true;
     }
 
     // Update is called once per frame
@@ -80,6 +84,14 @@ public class MovementScript : MonoBehaviour
         Move = Input.GetAxis("Horizontal"); // Basic movement, returns 1 or -1 depending on direction
         rb.velocity = new Vector2(playerSpeed * Move, rb.velocity.y);
 
+        if(!isFacingRight && Move > 0)
+        {
+            Flip();
+        }
+        else if(isFacingRight && Move < 0)
+        {
+            Flip();
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) // Jump method
         {
@@ -106,7 +118,14 @@ public class MovementScript : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
-
+        if(!isFacingRight && Move > 0)
+        {
+            Flip();
+        }
+        else if(isFacingRight && Move < 0)
+        {
+            Flip();
+        }
     }
 
    
@@ -213,5 +232,12 @@ public class MovementScript : MonoBehaviour
     {
         yield return new WaitForSeconds(freezeTime);
         playerFreeze = false;
+    }
+    public void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale = localScale;
     }
 }
