@@ -168,7 +168,7 @@ public class MovementScript : MonoBehaviour
         }
         if (other.gameObject.CompareTag("level2"))
         {
-            transform.position = new Vector2(0, -2);
+            transform.position = new Vector2(70, -4);
         }
     }
 
