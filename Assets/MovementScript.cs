@@ -13,6 +13,8 @@ public class MovementScript : MonoBehaviour
     public bool jumpBool;
     public bool jumpCancelBool;
 
+    public bool playerStuck = false;
+
     public Rigidbody2D rb;
 
     private float Move;
@@ -27,14 +29,7 @@ public class MovementScript : MonoBehaviour
     public float dashCooldown;
     public bool canDash = true;
 
-    private void Awake() {
-        startingPosition = transform.position;
-    }
-    Vector2 startingPosition;
-    public void Die() {
-        transform.position = startingPosition;
-    }
-
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +37,13 @@ public class MovementScript : MonoBehaviour
         {
             return;
         }
+
+        if (playerStuck)
+        {
+            transform.position = new Vector2(0, -2);
+            playerStuck = false;
+        }
+
     }
 
     // Update is called once per frame
@@ -51,6 +53,15 @@ public class MovementScript : MonoBehaviour
         if (isDashing) // Restricts movement while dashing
         {
             return;
+        }
+
+        if (playerStuck)
+        {
+            transform.position = new Vector2(0, -2);
+            playerStuck = false;
+        }
+        {
+            
         }
 
         Move = Input.GetAxis("Horizontal"); // Basic movement, returns 1 or -1 depending on direction
@@ -135,4 +146,14 @@ public class MovementScript : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown); // Dash cooldown
         canDash = true;
     }
+
+
+     void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("kill"))
+        {
+            playerStuck = true;
+        }
+    }
+
 }
