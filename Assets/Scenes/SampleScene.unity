@@ -487,6 +487,7 @@ MonoBehaviour:
   jumpBool: 0
   jumpCancelBool: 0
   playerStuck: 0
+  deadTime: 1
   rb: {fileID: 996848428}
   boxSize: {x: 0.85, y: 0.15}
   castDistance: 0.52
@@ -3172,11 +3173,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db3ef40583822b54d8cd0cea46869dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 996848427}
   timerText: {fileID: 1140055012}
   currentTime: 60
   countDown: 1
   hasLimit: 1
   timerLimit: 0
+  failTime: 5
 --- !u!4 &1486589692
 Transform:
   m_ObjectHideFlags: 0

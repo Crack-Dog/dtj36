@@ -32,10 +32,10 @@ public class Timer : MonoBehaviour
             SetTimerText();
             timerText.color = Color.white;
             enabled = false;
+
         }
         
         SetTimerText();
-
     }
 
     private void SetTimerText()

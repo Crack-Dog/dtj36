@@ -6,23 +6,27 @@ using UnityEngine;
 
 public class MovementScript : MonoBehaviour
 {
-    public float playerSpeed;
+    public float playerSpeed; // Base speed
+    private float Move;
 
-    public float jumpMax = 16;
+    // Jump variables/booleans
+    public float jumpMax = 16; 
     public float jumpMin = 8;
     public bool jumpBool;
     public bool jumpCancelBool;
 
+    // Related to player death
     public bool playerStuck = false;
+    public float deadTime = 1;
 
     public Rigidbody2D rb;
 
-    private float Move;
-
+    // Box cast
     public Vector2 boxSize;
     public float castDistance;
     public LayerMask groundLayer;
 
+    // Dash variables/booleans
     public float playerDash;
     public float dashDuration;
     public bool isDashing = false;
@@ -38,12 +42,6 @@ public class MovementScript : MonoBehaviour
             return;
         }
 
-        if (playerStuck)
-        {
-            transform.position = new Vector2(0, -2);
-            playerStuck = false;
-        }
-
     }
 
     // Update is called once per frame
@@ -55,10 +53,10 @@ public class MovementScript : MonoBehaviour
             return;
         }
 
-        if (playerStuck)
+        if (playerStuck) // When playStuck is true, restrict movement and run teleport method
         {
-            transform.position = new Vector2(0, -2);
-            playerStuck = false;
+            StartCoroutine(teleport());
+            return;
         }
         {
             
@@ -68,7 +66,7 @@ public class MovementScript : MonoBehaviour
         rb.velocity = new Vector2(playerSpeed * Move, rb.velocity.y);
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) // Jump function
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) // Jump method
         {
             if (!jumpBool)
             {
@@ -77,7 +75,7 @@ public class MovementScript : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isGrounded()){
+        if (Input.GetKeyUp(KeyCode.Space) && !isGrounded()){ // Checks if cancelling variable jump
             if (!jumpCancelBool)
             {
                 jumpCancelBool = true;
@@ -89,7 +87,7 @@ public class MovementScript : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Q) && canDash) // Dash function
+        if (Input.GetKeyDown(KeyCode.Q) && canDash) // Dash method
         {
             StartCoroutine(Dash());
         }
@@ -97,13 +95,13 @@ public class MovementScript : MonoBehaviour
     }
 
    
-    private void jump()
+    private void jump() // Base jump method
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpMax);
         jumpBool = false;
     }
     
-    private void jumpCancel()
+    private void jumpCancel() // Variable jump, when jumpCancel, replaces current velocity with lower velocity if applicable
     {
         if (rb.velocity.y > jumpMin)
         {
@@ -148,12 +146,19 @@ public class MovementScript : MonoBehaviour
     }
 
 
-     void OnCollisionEnter2D(Collision2D other)
+     void OnCollisionEnter2D(Collision2D other) // Checks if the player is interacting with kill objects
     {
         if (other.gameObject.CompareTag("kill"))
         {
             playerStuck = true;
         }
+    }
+
+    private IEnumerator teleport() // Teleports player to spawn when called
+    {
+        yield return new WaitForSeconds(deadTime);
+        transform.position = new Vector2(0, -2);
+        playerStuck = false;
     }
 
 }
