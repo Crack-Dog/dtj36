@@ -51,7 +51,7 @@ public class MovementScript : MonoBehaviour
 
         if (playerStuck) // When playStuck is true, restrict movement and run teleport method
         {
-            StartCoroutine(teleport());
+            teleport();
             return;
         }
     }
@@ -67,7 +67,7 @@ public class MovementScript : MonoBehaviour
 
         if (playerStuck) // When playStuck is true, restrict movement and run teleport method
         {
-            StartCoroutine(teleport());
+            teleport();
             return;
         }
 
@@ -184,10 +184,8 @@ public class MovementScript : MonoBehaviour
         }
     }
 
-    private IEnumerator teleport() // Teleports player to spawn when called
+    private void teleport() // Teleports player to spawn when called
     {
-        rb.velocity = new Vector2(0, 0);
-        yield return new WaitForSeconds(deadTime);
         if (levelone)
         {
             transform.position = new Vector2(0, -2);
@@ -196,7 +194,6 @@ public class MovementScript : MonoBehaviour
         {
             transform.position = new Vector2(70, -4);
         }
-        playerStuck = false;
     }
 
     private IEnumerator freeze()
